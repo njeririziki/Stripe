@@ -1,6 +1,20 @@
 import React,{useEffect,useState, useRef} from 'react';
 
-const Product = ({savings}) => {
+import {makeStyles, useTheme} from '@material-ui/core/styles';
+import { Height } from '@material-ui/icons';
+
+const useStyles = makeStyles((theme)=> ({
+   page:{
+padding: theme.spacing(4),
+height: '40px',
+width:'200px'
+   }
+    
+
+}))
+
+const PaypalFunc = ( props) => {
+    const classes= useStyles()
     const [paidFor,setPaidFor]=useState(false);
     const [error,setError]= useState(null);
     const payPalRef= useRef();
@@ -14,12 +28,13 @@ const Product = ({savings}) => {
                             description:'savings',
                             amount:{
                                 currency_code:'USD',
-                                value:savings.value,
+                                value: props.savings,
                             },
                         },
                     ],
                 });
             },
+          
             onApprove: async(data,actions)=>{
                 const order= await actions.order.capture();
                 setPaidFor(true);
@@ -31,17 +46,12 @@ const Product = ({savings}) => {
             }       
          })
          .render(payPalRef.current);
-    },[savings.value]);
-    if (paidFor) {
-        return(
-            <div>
-                <p>Surprise Bitch!!</p>
-            </div>
-        )
-    }
+    },[]);
+     
     return (  
-        <div>
-        {error && <div>Shit happens ya know</div>}
+        <div className={classes.page}>
+            {paidFor && alert('Transfer complete')}
+        {error && <div>Please try again</div>}
         <h2>Paying bills</h2>
         <div ref={payPalRef}/>
         </div>
@@ -51,15 +61,5 @@ const Product = ({savings}) => {
 
 
 
-const PaypalFunc = () => {
-    const savings={
-        value:300
-    }
-    return ( 
-        <div>
-       <Product savings={savings}/>
-        </div>
-     );
-}
- 
+
 export default PaypalFunc;

@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Card from './Payment/Card'
-import PaypalFunc from './Paypal/PaypalFunc'
+import Expense from './Paypal/Expense'
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <PaypalFunc/>
+    <Expense/>
   </React.StrictMode>,
   document.getElementById('root')
 );
